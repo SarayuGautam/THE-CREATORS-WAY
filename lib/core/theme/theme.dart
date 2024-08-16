@@ -23,5 +23,8 @@ class AppTheme {
         AppPallete.gradient2,
       ),
     ),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppPallete.backgroundColor,
+    ),
   );
 }
