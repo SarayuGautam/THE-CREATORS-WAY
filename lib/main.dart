@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'BLOG_APP',
+      title: "The Creator's Way",
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkThemeMode,
       home: const LoginPage(),
