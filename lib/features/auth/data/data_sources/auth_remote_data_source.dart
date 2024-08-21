@@ -34,7 +34,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
       return (response.user == null)
           ? throw const ServerException('User is null!')
-          : UserModel.fromJson(response.user!.toJson());
+          : UserModel.fromJson(response.user!.toJson()).copyWith(
+              email: email,
+            );
     } catch (e) {
       throw ServerException(
         e.toString(),
@@ -58,7 +60,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       );
       return (response.user == null)
           ? throw const ServerException('User is null!')
-          : UserModel.fromJson(response.user!.toJson());
+          : UserModel.fromJson(response.user!.toJson()).copyWith(
+              email: email,
+            );
     } catch (e) {
       throw ServerException(
         e.toString(),
@@ -77,7 +81,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             .from('profiles')
             .select()
             .eq('id', currentUserSession!.user.id);
-        return UserModel.fromJson(userData.first);
+        return UserModel.fromJson(userData.first).copyWith(
+          email: currentUserSession!.user.email,
+        );
       }
       return null;
     } catch (e) {

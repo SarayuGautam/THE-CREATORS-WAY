@@ -1,6 +1,6 @@
 import 'package:blog_app/core/error/failures.dart';
 import 'package:blog_app/core/use_case/use_case.dart';
-import 'package:blog_app/features/auth/domain/entity/user.dart';
+import 'package:blog_app/core/common/entity/user.dart';
 import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
