@@ -56,7 +56,6 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
             ),
           );
     }
-    print('uploaded');
   }
 
   @override
@@ -84,9 +83,9 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
         listener: (context, state) {
-          if (state is BlogFailure)
+          if (state is BlogFailure) {
             return showSnackbar(context, state.error);
-          else if (state is BlogSuccess) {
+          } else if (state is BlogSuccessUpload) {
             Navigator.pushAndRemoveUntil(
               context,
               BlogPage.route(),

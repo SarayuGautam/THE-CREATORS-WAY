@@ -15,4 +15,12 @@ final class BlogFailure extends BlogState {
   final String error;
 }
 
-final class BlogSuccess extends BlogState {}
+final class BlogSuccessUpload extends BlogState {}
+
+final class BlogSuccessGet extends BlogState {
+  BlogSuccessGet({
+    required this.blogs,
+  });
+
+  final List<Blog> blogs;
+}
