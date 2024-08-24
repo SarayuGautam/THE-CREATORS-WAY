@@ -15,7 +15,7 @@ Future<void> initDependencies() async {
     ..registerLazySingleton(() => supabase.client)
     ..registerFactory(InternetConnection.new)
     ..registerLazySingleton(
-      () => Hive.box(name: 'blogs'),
+      () => Hive.box<dynamic>(name: 'blogs'),
     )
     ..registerFactory<ConnectionChecker>(
       () => ConnectionCheckerImpl(internetConnection: serviceLocator()),

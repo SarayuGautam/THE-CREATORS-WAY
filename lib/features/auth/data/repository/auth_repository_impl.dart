@@ -50,9 +50,11 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final connected = await connectionChecker.isConnected;
       if (!connected) {
-        Left(Failure(
-          Constants.noConnectionErrorMessage,
-        ));
+        Left(
+          Failure(
+            Constants.noConnectionErrorMessage,
+          ),
+        );
       }
       final user = await function();
       return Right(user);
@@ -70,11 +72,11 @@ class AuthRepositoryImpl implements AuthRepository {
       if (!connected) {
         final session = authRemoteDataSource.currentUserSession;
         if (session == null) {
-          Left(Failure('User is not logged in'));
+          return Left(Failure('User is not logged in'));
         }
         return Right(
           UserModel(
-            id: session!.user.id,
+            id: session.user.id,
             name: '',
             email: session.user.email ?? '',
           ),

@@ -11,6 +11,7 @@ import 'package:blog_app/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/blog/data/data_sources/blog_local_data_source.dart';
 import 'package:blog_app/features/blog/data/data_sources/blog_remote_data_source.dart';
 import 'package:blog_app/features/blog/data/repository/blog_repository_impl.dart';
+import 'package:blog_app/features/blog/domain/entity/blog.dart';
 import 'package:blog_app/features/blog/domain/repository/blog_repository.dart';
 import 'package:blog_app/features/blog/domain/use_case/get_blogs.dart';
 import 'package:blog_app/features/blog/domain/use_case/upload_blog.dart';
