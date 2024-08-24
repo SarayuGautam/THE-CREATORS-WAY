@@ -1,17 +1,21 @@
+import 'package:blog_app/core/common/entity/user.dart';
+import 'package:blog_app/core/constant/constants.dart';
 import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/error/failures.dart';
+import 'package:blog_app/core/network/connection_checker.dart';
 import 'package:blog_app/features/auth/data/data_sources/auth_remote_data_source.dart';
-import 'package:blog_app/core/common/entity/user.dart';
+import 'package:blog_app/features/auth/data/models/user_model.dart';
 import 'package:blog_app/features/auth/domain/repository/auth_repository.dart';
-import 'package:fpdart/src/either.dart';
-import 'package:supabase_flutter/supabase_flutter.dart' as sb;
+import 'package:fpdart/fpdart.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
-  AuthRepositoryImpl({
+  AuthRepositoryImpl(
+    this.connectionChecker, {
     required this.authRemoteDataSource,
   });
 
   final AuthRemoteDataSource authRemoteDataSource;
+  final ConnectionChecker connectionChecker;
   @override
   Future<Either<Failure, User>> loginWithEmailPassword({
     required String password,
@@ -44,12 +48,14 @@ class AuthRepositoryImpl implements AuthRepository {
     Future<User> Function() function,
   ) async {
     try {
+      final connected = await connectionChecker.isConnected;
+      if (!connected) {
+        Left(Failure(
+          Constants.noConnectionErrorMessage,
+        ));
+      }
       final user = await function();
       return Right(user);
-    } on sb.AuthException catch (e) {
-      return Left(
-        Failure(e.message),
-      );
     } on ServerException catch (e) {
       return Left(
         Failure(e.message),
@@ -60,6 +66,20 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, User>> currentUser() async {
     try {
+      final connected = await connectionChecker.isConnected;
+      if (!connected) {
+        final session = authRemoteDataSource.currentUserSession;
+        if (session == null) {
+          Left(Failure('User is not logged in'));
+        }
+        return Right(
+          UserModel(
+            id: session!.user.id,
+            name: '',
+            email: session.user.email ?? '',
+          ),
+        );
+      }
       final user = await authRemoteDataSource.getCurrentUserData();
       return user == null ? Left(Failure('User Not Logged In')) : Right(user);
     } on ServerException catch (e) {
